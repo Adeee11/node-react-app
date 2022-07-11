@@ -4,10 +4,21 @@ import { App } from './App';
 import { reportWebVitals } from './reportWebVitals';
 
 import './index.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { DataProvider } from './DataProvider';
+import { CssBaseline } from '@mui/material';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <DataProvider>
+      <BrowserRouter>
+        <CssBaseline />
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/repo/:repo" element={<App />} />
+        </Routes>
+      </BrowserRouter>
+    </DataProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
