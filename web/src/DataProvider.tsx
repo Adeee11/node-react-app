@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { api } from './api';
 import { IRepository } from './types';
 
@@ -18,15 +18,7 @@ const INITIAL_STATE: IDataContext = {
 
 const DATA_CONTEXT = createContext<IDataContext>(INITIAL_STATE);
 
-export const useData = () => {
-  const context = useContext(DATA_CONTEXT);
-  useEffect(() => {
-    context.fetchData();
-    // Fix For only calling it once. Can create a separate useMount hook for the same person so as to avoid eslint disable everytime.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  return context;
-};
+export const useData = () => useContext(DATA_CONTEXT);
 
 export function DataProvider(props: { children: React.ReactNode }) {
   const [data, setData] =

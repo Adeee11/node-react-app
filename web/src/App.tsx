@@ -1,11 +1,14 @@
 import { Alert, CircularProgress, Grid } from '@mui/material';
 import { useData } from './DataProvider';
-import RepoList from './Components/RepoList';
 import { Box, Container } from '@mui/system';
+import { Outlet } from 'react-router-dom';
+import { useMount } from './Hooks/useMount';
 
 export function App() {
-  const { status, repos } = useData();
-
+  const { status, fetchData } = useData();
+  useMount(() => {
+    fetchData();
+  });
   if (status === 'FETCHING') {
     return (
       <Box
@@ -28,7 +31,7 @@ export function App() {
               Error: Please Refresh Page or Contact Support
             </Alert>
           )}
-          {status === 'FETCH_SUCCESS' && <RepoList repos={repos} />}
+          {status === 'FETCH_SUCCESS' && <Outlet />}
         </Grid>
       </Grid>
     </Container>

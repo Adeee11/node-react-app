@@ -7,6 +7,8 @@ import './index.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { DataProvider } from './DataProvider';
 import { CssBaseline } from '@mui/material';
+import RepoList from './Components/RepoList';
+import RepoInfo from './Components/RepoInfo';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -14,8 +16,10 @@ ReactDOM.render(
       <BrowserRouter>
         <CssBaseline />
         <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/repo/:repo" element={<App />} />
+          <Route path="/" element={<App />}>
+            <Route path="/" element={<RepoList />} />
+            <Route path="/repo/:repoId" element={<RepoInfo />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </DataProvider>
