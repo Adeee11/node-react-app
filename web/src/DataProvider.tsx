@@ -23,7 +23,6 @@ export const useData = () => useContext(DATA_CONTEXT);
 export function DataProvider(props: { children: React.ReactNode }) {
   const [data, setData] =
     useState<Omit<IDataContext, 'fetchData'>>(INITIAL_STATE);
-
   const fetchRepos = async () => {
     if (data.status === 'INITIAL' || data.status === 'FETCH_FAILED') {
       setData((old) => ({ ...old, status: 'FETCHING' }));

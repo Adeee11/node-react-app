@@ -29,7 +29,31 @@ repos.get('/', async (_: Request, res: Response) => {
     const combined = [...reposFromGithub, ...data].filter(
       (item) => item.fork === false
     );
-    res.json(combined);
+    // console.log('hello');
+
+    const promises = combined.map(async (item) => {
+      let markdownFile: string | null;
+      let latestCommit: unknown | null;
+      try {
+        const respMarkdown = await axios.get(
+          `https://raw.githubusercontent.com/${item.full_name}/master/README.md`
+        );
+        markdownFile = respMarkdown.data;
+      } catch (e) {
+        markdownFile = null;
+      }
+      try {
+        const apiResp = await axios.get(
+          `https://api.github.com/repos/${item.full_name}/commits`
+        );
+        latestCommit = apiResp.data[0].commit;
+      } catch (e) {
+        latestCommit = null;
+      }
+      return { ...item, latest_commit: latestCommit, markdown: markdownFile };
+    });
+    const results = await Promise.all(promises);
+    res.json(results);
   } catch (e) {
     res.sendStatus(500);
   }

@@ -9,4 +9,13 @@ export interface IRepository {
   language: string;
   forks_count: string;
   created_at: string;
+  markdown?: string;
+  latest_commit?: {
+    author: {
+      name: string;
+      email: string;
+      date: string;
+    };
+    message: string;
+  };
 }
