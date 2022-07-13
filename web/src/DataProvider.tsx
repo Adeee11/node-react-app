@@ -30,7 +30,21 @@ export function DataProvider(props: { children: React.ReactNode }) {
 
       try {
         const resp = await api.get('/repos');
-        setData({ status: 'FETCH_SUCCESS', repos: resp.data });
+        setData({
+          status: 'FETCH_SUCCESS',
+          repos: resp.data.sort((item: IRepository, next: IRepository) => {
+            const currentDate = new Date(item.created_at).getTime();
+            const nextDate = new Date(next.created_at).getTime();
+
+            if (currentDate > nextDate) {
+              return -1;
+            } else if (currentDate < nextDate) {
+              return 1;
+            } else {
+              return 0;
+            }
+          }),
+        });
       } catch (e) {
         setData((old) => ({ ...old, repos: [], status: 'FETCH_FAILED' }));
       }
